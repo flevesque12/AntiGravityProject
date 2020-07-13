@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
     private bool m_IsJumpStart = false;
     public bool IsJumpStart { get { return this.m_IsJumpStart; } }
 
+    private bool m_IsOnFloor = false;
+    public bool IsOnFloor { get { return this.m_IsOnFloor; } }
     #endregion Variables
 
     // Start is called before the first frame update
@@ -66,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
         ApplyAnimation();
 
         //IsGrounded();
+        
     }
 
     private void FixedUpdate()
@@ -123,13 +126,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void FlipSprite()
     {
-        if (m_rb.velocity.x < 0)
+        float dotprod = Vector2.Dot(m_rb.velocity, transform.right);
+
+        if (dotprod > 0)
         {
-            m_Render.flipX = true;
+           m_Render.flipX = false;
         }
-        else if (m_rb.velocity.x > 0)
+        else if(dotprod < 0)
         {
-            m_Render.flipX = false;
+             m_Render.flipX = true;
         }
     }
+
 }

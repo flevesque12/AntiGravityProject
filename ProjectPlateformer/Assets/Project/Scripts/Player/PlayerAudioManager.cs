@@ -57,7 +57,7 @@ public class PlayerAudioManager : MonoBehaviour
 
 
     private void ApplyTouchingGroundSoundEffect() {
-        if (m_PlayerMovement.IsGrounded())
+        if (m_PlayerMovement.IsOnFloor)
         {
             antigravityActivation.PlayOneShot(touchingGroundSound);
         }

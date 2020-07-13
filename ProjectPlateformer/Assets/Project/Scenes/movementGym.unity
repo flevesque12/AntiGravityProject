@@ -574,9 +574,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b64d892ff411664bac33800de1b974b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  antigravityActivation: {fileID: 1097804561}
   antigravitySound: {fileID: 8300000, guid: 9bbdb932e4e15f44ca14214fd87ee045, type: 3}
   touchingGroundSound: {fileID: 8300000, guid: 2114c85abc36458499d57e8ab7a08183, type: 3}
+  antigravityActivation: {fileID: 1097804561}
   footStepSound: {fileID: 1097804559}
   footTouchFloorSound: {fileID: 0}
 --- !u!82 &1097804561
@@ -1510,7 +1510,7 @@ GameObject:
   - component: {fileID: 1843430133}
   m_Layer: 0
   m_Name: Grid
-  m_TagString: Untagged
+  m_TagString: floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
