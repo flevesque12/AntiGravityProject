@@ -24,7 +24,7 @@ public class PlayerAudioManager : MonoBehaviour
     {
         ApplySoundWalkingEffect();
         ApplyAntigraviyActivationSoundEffect();
-        //ApplyTouchingGroundSoundEffect();
+        ApplyTouchingGroundSoundEffect();
     }
 
     private void ApplySoundWalkingEffect()
@@ -59,7 +59,7 @@ public class PlayerAudioManager : MonoBehaviour
     private void ApplyTouchingGroundSoundEffect() {
         if (m_PlayerMovement.IsOnFloor)
         {
-            antigravityActivation.PlayOneShot(touchingGroundSound);
+            antigravityActivation.PlayOneShot(touchingGroundSound);            
         }
     }
 }

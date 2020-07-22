@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsJumpStart { get { return this.m_IsJumpStart; } }
 
     private bool m_IsOnFloor = false;
-    public bool IsOnFloor { get { return this.m_IsOnFloor; } }
+    public bool IsOnFloor { get { return this.m_IsOnFloor; } set { this.IsOnFloor = value; } }
     #endregion Variables
 
     // Start is called before the first frame update
@@ -116,11 +116,13 @@ public class PlayerMovement : MonoBehaviour
         {
             m_Anim.SetBool("IsWalking", true);
             m_IsMoving = true;
+            m_IsOnFloor = true;
         }
         else
         {
             m_Anim.SetBool("IsWalking", false);
             m_IsMoving = false;
+            m_IsOnFloor = false;
         }
     }
 
