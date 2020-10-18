@@ -4,14 +4,22 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Variables
 
-    public float walkSpeed = 3.0f;
+    [SerializeField, Range(1f, 10f)]
+    private float walkSpeed = 4.0f;
 
     //public float jumpHeight = 6f;
-    public float gravityScale = -8.5f;
+    [SerializeField]
+    private float gravityScale = 8.5f;
 
+    [SerializeField, Range(0.01f, 0.5f)]
     private float extraHeight = 0.01f;
-    public LayerMask groundLayerMask;
-    private bool m_IsMoving = false;
+    
+    [SerializeField]
+    private LayerMask groundLayerMask;
+
+    private Vector2 m_Velocity = Vector2.zero;
+
+    private bool m_IsMoving = false; 
     public bool IsMoving { get { return this.m_IsMoving; } }
 
     private Rigidbody2D m_rb;
@@ -20,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator m_Anim;
 
     private Vector2 m_PlayerDirectionY = Vector2.down;
+    
     private bool m_IsAntigravityIsOn = false;
     public bool IsIsAntigravityIsOn { get { return this.m_IsAntigravityIsOn; } }
 
@@ -42,6 +51,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        m_Velocity.x = Input.GetAxis("Horizontal") * walkSpeed;
+
         FlipSprite();
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
@@ -91,28 +102,28 @@ public class PlayerMovement : MonoBehaviour
             rayColor = Color.red;
         }
         Debug.DrawRay(m_Collider.bounds.center, m_PlayerDirectionY * (m_Collider.bounds.extents.y + extraHeight), rayColor);
-
+        
         return hit2d.collider != null;
     }
 
     public void Move()
     {
-        float velocity = Input.GetAxis("Horizontal") * walkSpeed;
+        
 
         if (m_IsAntigravityIsOn == false)
         {
-            m_rb.velocity = new Vector2(velocity, -gravityScale);
+            m_rb.velocity = new Vector2(m_Velocity.x, -gravityScale);
         }
 
         if (m_IsAntigravityIsOn)
         {
-            m_rb.velocity = new Vector2(velocity, gravityScale);
+            m_rb.velocity = new Vector2(m_Velocity.x, gravityScale);
         }
     }
 
     private void ApplyAnimation()
     {
-        if (m_rb.velocity.x != 0 && IsGrounded())
+        if (m_Velocity.x != 0 && IsGrounded())
         {
             m_Anim.SetBool("IsWalking", true);
             m_IsMoving = true;
