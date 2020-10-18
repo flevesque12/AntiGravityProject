@@ -3,13 +3,11 @@
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerAudioManager : MonoBehaviour
 {
-    
-    [SerializeField] private AudioClip antigravitySound;
-    [SerializeField] private AudioClip touchingGroundSound;
-    
-    [SerializeField] private AudioSource antigravityActivation;
-    [SerializeField] private AudioSource footStepSound;
-    [SerializeField] private AudioSource footTouchFloorSound;
+    [SerializeField] private AudioClip clipAntigravitySound;
+    [SerializeField] private AudioClip clipTouchingGroundSound;
+    [SerializeField] private AudioClip clipWalkSound;
+
+    private AudioSource m_AudioAudioSource;
 
     private PlayerMovement m_PlayerMovement;
 
@@ -17,6 +15,7 @@ public class PlayerAudioManager : MonoBehaviour
     private void Start()
     {
         m_PlayerMovement = GetComponent<PlayerMovement>();
+        m_AudioAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -24,42 +23,46 @@ public class PlayerAudioManager : MonoBehaviour
     {
         ApplySoundWalkingEffect();
         ApplyAntigraviyActivationSoundEffect();
-        ApplyTouchingGroundSoundEffect();
+        //ApplyTouchingGroundSoundEffect();
     }
 
     private void ApplySoundWalkingEffect()
     {
         if (m_PlayerMovement.IsMoving)
         {
-            if (!footStepSound.isPlaying)
+            if (!m_AudioAudioSource.isPlaying)
             {
-                footStepSound.Play();
+                m_AudioAudioSource.PlayOneShot(clipWalkSound);
             }
         }
         else
         {
-            footStepSound.Stop();
+            return;
         }
     }
 
     private void ApplyAntigraviyActivationSoundEffect()
     {
-        if (!antigravityActivation.isPlaying)
+        if (m_PlayerMovement.IsJumpStart)
         {
-            if (m_PlayerMovement.IsJumpStart)
-            {
-                antigravityActivation.PlayOneShot(antigravitySound);
-            }            
+            m_AudioAudioSource.PlayOneShot(clipAntigravitySound);
         }
     }
 
-    
-
-
-    private void ApplyTouchingGroundSoundEffect() {
+    private void ApplyTouchingGroundSoundEffect()
+    {
         if (m_PlayerMovement.IsOnFloor)
         {
-            antigravityActivation.PlayOneShot(touchingGroundSound);            
+            m_AudioAudioSource.PlayOneShot(clipTouchingGroundSound);
         }
+        else
+        {
+            return;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        m_AudioAudioSource.PlayOneShot(clipTouchingGroundSound);
     }
 }

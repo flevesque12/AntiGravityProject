@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private float gravityScale = 8.5f;
 
     [SerializeField, Range(0.01f, 0.5f)]
-    private float extraHeight = 0.01f;
+    private float extraHeight = 0.02f;
     
     [SerializeField]
     private LayerMask groundLayerMask;
@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private Collider2D m_Collider;
     private SpriteRenderer m_Render;
     private Animator m_Anim;
-
+    
     private Vector2 m_PlayerDirectionY = Vector2.down;
     
     private bool m_IsAntigravityIsOn = false;
@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
         m_Velocity.x = Input.GetAxis("Horizontal") * walkSpeed;
 
         FlipSprite();
-
+        
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
         {
             if (!m_IsAntigravityIsOn)
@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
             rayColor = Color.red;
         }
         Debug.DrawRay(m_Collider.bounds.center, m_PlayerDirectionY * (m_Collider.bounds.extents.y + extraHeight), rayColor);
-        
+        Debug.Log(hit2d.collider != null);
         return hit2d.collider != null;
     }
 
