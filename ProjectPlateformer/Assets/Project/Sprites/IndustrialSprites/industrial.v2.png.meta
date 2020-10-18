@@ -226,7 +226,7 @@ TextureImporter:
     second: playerIdle1
   - first:
       213: 6607041139711812972
-    second: industrial.v2_74
+    second: walk2
   - first:
       213: 3660755744497259728
     second: playerIdle3
@@ -259,7 +259,7 @@ TextureImporter:
     second: playerIdle5
   - first:
       213: -7018562731545092892
-    second: industrial.v2_85
+    second: walk6
   - first:
       213: 3532949817420907957
     second: playerIdle7
@@ -268,22 +268,22 @@ TextureImporter:
     second: XSquare
   - first:
       213: 2204930564710904673
-    second: industrial.v2_88
+    second: walk1
   - first:
       213: -5318534719608476134
-    second: industrial.v2_89
+    second: walk3
   - first:
       213: 6523130266571535907
-    second: industrial.v2_90
+    second: walk4
   - first:
       213: -388676333898565520
-    second: industrial.v2_91
+    second: walk5
   - first:
       213: 1673205286945473809
-    second: industrial.v2_92
+    second: walk7
   - first:
       213: 2378379747536261176
-    second: industrial.v2_93
+    second: walk8
   - first:
       213: 92163099503769619
     second: playerShoot1
@@ -1992,7 +1992,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: industrial.v2_74
+      name: walk2
       rect:
         serializedVersion: 2
         x: 17
@@ -2223,7 +2223,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: industrial.v2_85
+      name: walk6
       rect:
         serializedVersion: 2
         x: 80
@@ -2286,7 +2286,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: industrial.v2_88
+      name: walk1
       rect:
         serializedVersion: 2
         x: 1
@@ -2307,7 +2307,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: industrial.v2_89
+      name: walk3
       rect:
         serializedVersion: 2
         x: 33
@@ -2328,7 +2328,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: industrial.v2_90
+      name: walk4
       rect:
         serializedVersion: 2
         x: 49
@@ -2349,7 +2349,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: industrial.v2_91
+      name: walk5
       rect:
         serializedVersion: 2
         x: 65
@@ -2370,7 +2370,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: industrial.v2_92
+      name: walk7
       rect:
         serializedVersion: 2
         x: 97
@@ -2391,7 +2391,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: industrial.v2_93
+      name: walk8
       rect:
         serializedVersion: 2
         x: 113
@@ -4583,7 +4583,7 @@ TextureImporter:
         width: 12
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -4604,7 +4604,7 @@ TextureImporter:
         width: 16
         height: 2
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
