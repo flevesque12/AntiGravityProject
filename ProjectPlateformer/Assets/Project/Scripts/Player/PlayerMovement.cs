@@ -3,23 +3,26 @@
 public class PlayerMovement : MonoBehaviour
 {
     #region Variables
+    [Header("Movement")]
+    [SerializeField, Range(1f, 10f)] private float walkSpeed = 4.0f;
 
-    [SerializeField, Range(1f, 10f)]
-    private float walkSpeed = 4.0f;
+    [SerializeField] private float jumpHeight = 3f;
+    [SerializeField] private float gravityScale = 8.5f;
+    [SerializeField] private float fallMultiplier = 2.5f;
+    [SerializeField] private float lowJumpMultiplier = 2f;
 
-    //public float jumpHeight = 6f;
-    [SerializeField]
-    private float gravityScale = 8.5f;
-
-    [SerializeField, Range(0.01f, 0.5f)]
-    private float extraHeight = 0.02f;
+    [SerializeField, Range(0.01f, 0.5f)] private float extraHeight = 0.02f;
     
-    [SerializeField]
-    private LayerMask groundLayerMask;
+    [SerializeField] private LayerMask groundLayerMask;
+    
+    [SerializeField] private float jumpTimeCounter = 0.35f;
+    public float JumpTime { get; set; }
 
     private Vector2 m_Velocity = Vector2.zero;
 
-    private bool m_IsMoving = false; 
+    private bool m_IsMoving = false;
+    private bool m_IsJumping = false;
+
     public bool IsMoving { get { return this.m_IsMoving; } }
 
     private Rigidbody2D m_rb;
@@ -55,26 +58,32 @@ public class PlayerMovement : MonoBehaviour
 
         FlipSprite();
         
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")) && IsGrounded())
         {
-            if (!m_IsAntigravityIsOn)
+            m_IsJumping = true;
+            JumpTime = jumpTimeCounter;
+            m_rb.velocity = Vector2.up * jumpHeight;
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (JumpTime > 0)
             {
-                m_IsAntigravityIsOn = true;
-                m_Render.flipY = true;
-                m_PlayerDirectionY = Vector2.up;
+                m_rb.velocity = Vector2.up * jumpHeight;
+                JumpTime -= Time.deltaTime;
             }
             else
             {
-                m_IsAntigravityIsOn = false;
-                m_Render.flipY = false;
-                m_PlayerDirectionY = Vector2.down;
+                m_IsJumping = false;
             }
-            m_IsJumpStart = true;
         }
-        else
+
+        if (Input.GetKeyUp(KeyCode.Space))
         {
-            m_IsJumpStart = false;
+            m_IsJumping = false;
         }
+
+       
 
         ApplyAnimation();
 
@@ -85,6 +94,15 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+
+        if (m_rb.velocity.y < 0)
+        {
+            m_rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        }
+        else if (m_rb.velocity.y > 0 && !Input.GetButton("Jump"))
+        {
+            m_rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+        }
     }
 
     public bool IsGrounded()
@@ -112,12 +130,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (m_IsAntigravityIsOn == false)
         {
-            m_rb.velocity = new Vector2(m_Velocity.x, -gravityScale);
+            m_rb.velocity = new Vector2(m_Velocity.x, m_rb.velocity.y);
         }
 
         if (m_IsAntigravityIsOn)
         {
-            m_rb.velocity = new Vector2(m_Velocity.x, gravityScale);
+            m_rb.velocity = new Vector2(m_Velocity.x, m_rb.velocity.y);
         }
     }
 
