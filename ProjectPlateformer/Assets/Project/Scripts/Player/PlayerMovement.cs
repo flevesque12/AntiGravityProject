@@ -60,22 +60,12 @@ public class PlayerMovement : MonoBehaviour
         
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")) && IsGrounded())
         {
-            m_IsJumping = true;
-            JumpTime = jumpTimeCounter;
-            m_rb.velocity = Vector2.up * jumpHeight;
+            Jump();
         }
 
         if (Input.GetKey(KeyCode.Space))
         {
-            if (JumpTime > 0)
-            {
-                m_rb.velocity = Vector2.up * jumpHeight;
-                JumpTime -= Time.deltaTime;
-            }
-            else
-            {
-                m_IsJumping = false;
-            }
+            JumpExtended();
         }
 
         if (Input.GetKeyUp(KeyCode.Space))
@@ -94,14 +84,18 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-
+        
         if (m_rb.velocity.y < 0)
-        {
-            m_rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        {            
+            m_rb.gravityScale = fallMultiplier;
         }
         else if (m_rb.velocity.y > 0 && !Input.GetButton("Jump"))
         {
-            m_rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+            m_rb.gravityScale = lowJumpMultiplier;
+        }
+        else
+        {
+            m_rb.gravityScale = 1f;
         }
     }
 
@@ -124,9 +118,29 @@ public class PlayerMovement : MonoBehaviour
         return hit2d.collider != null;
     }
 
-    public void Move()
+    private void Jump()
     {
-        
+        m_IsJumping = true;
+        JumpTime = jumpTimeCounter;
+        //m_rb.velocity = Vector2.up * jumpHeight;
+        m_rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
+    }
+
+    private void JumpExtended()
+    {
+        if (JumpTime > 0)
+        {
+            m_rb.velocity = Vector2.up * jumpHeight;
+            JumpTime -= Time.deltaTime;
+        }
+        else
+        {
+            m_IsJumping = false;
+        }
+    }
+
+    public void Move()
+    {       
 
         if (m_IsAntigravityIsOn == false)
         {

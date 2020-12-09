@@ -3027,12 +3027,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 5
-  jumpHeight: 6
+  jumpHeight: 4.5
   gravityScale: 9
+  fallMultiplier: 3
+  lowJumpMultiplier: 2.5
   extraHeight: 0.03
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 256
+  jumpTimeCounter: 0.3
 --- !u!114 &1701013192
 MonoBehaviour:
   m_ObjectHideFlags: 0
