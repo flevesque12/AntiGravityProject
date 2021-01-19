@@ -2,15 +2,19 @@
 
 public class PlayerMovement : MonoBehaviour
 {
+
     #region Variables
 
-    public float walkSpeed = 3.0f;
+    [SerializeField]
+    private float walkSpeed = 3.0f;
 
     //public float jumpHeight = 6f;
-    public float gravityScale = -8.5f;
+    [SerializeField]
+    private float gravityScale = 8.5f;
 
     private float extraHeight = 0.01f;
     public LayerMask groundLayerMask;
+
     private bool m_IsMoving = false;
     public bool IsMoving { get { return this.m_IsMoving; } }
 
@@ -20,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     private Animator m_Anim;
 
     private Vector2 m_PlayerDirectionY = Vector2.down;
+    private float m_velocity;
+
     private bool m_IsAntigravityIsOn = false;
     public bool IsIsAntigravityIsOn { get { return this.m_IsAntigravityIsOn; } }
 
@@ -42,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        FlipSprite();
+        m_velocity = Input.GetAxisRaw("Horizontal") * walkSpeed;
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
         {
@@ -65,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
             m_IsJumpStart = false;
         }
 
+        FlipSprite();
         ApplyAnimation();
 
         //IsGrounded();
@@ -96,34 +103,38 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void Move()
-    {
-        float velocity = Input.GetAxis("Horizontal") * walkSpeed;
+    {       
 
         if (m_IsAntigravityIsOn == false)
         {
-            m_rb.velocity = new Vector2(velocity, -gravityScale);
+            m_rb.velocity = new Vector2(m_velocity, -gravityScale);
         }
 
         if (m_IsAntigravityIsOn)
         {
-            m_rb.velocity = new Vector2(velocity, gravityScale);
+            m_rb.velocity = new Vector2(m_velocity, gravityScale);
         }
     }
 
     private void ApplyAnimation()
     {
-        if (m_rb.velocity.x != 0 && IsGrounded())
+       
+        if (m_velocity != 0 && IsGrounded())
         {
             m_Anim.SetBool("IsWalking", true);
+            
             m_IsMoving = true;
             m_IsOnFloor = true;
         }
         else
         {
             m_Anim.SetBool("IsWalking", false);
+           
             m_IsMoving = false;
             m_IsOnFloor = false;
         }
+
+        
     }
 
     private void FlipSprite()
